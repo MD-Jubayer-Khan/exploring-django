@@ -20,16 +20,16 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link active" aria-current="page" href="{% url 'home'%}">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Add author</a>
+              <a class="nav-link" href="{% url 'add-author'%}">Add author</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Add post</a>
+              <a class="nav-link" href="{% url 'add-post'%}" href="#">Add post</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Add category</a>
+              <a class="nav-link" href="{% url 'add-categories'%}" href="#">Add category</a>
             </li>
           </ul>
         </div>
