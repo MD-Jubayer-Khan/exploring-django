@@ -1,0 +1,94 @@
+{% extends "home/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Home{% endblock title %}
+{% block hero_Section %}{% endblock hero_Section %}
+{% block Main_Section %}
+{% if not user.is_authenticated %}
+<section>
+    <div class="container mx-auto mt-4 p-4">
+        <div class="mx-auto ">
+            {% if infos %}
+            <h3 class="text-center">Albums</h3>
+            {% endif %}
+            <table class="table table-light">
+                {% if infos %}
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Musician Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Instrument type</th>
+                        <th scope="col">Album Name</th>
+                        <th scope="col">Release Date&Time</th>
+                        <th scope="col">Album Ratings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for info in infos %}
+                    <tr>
+                        <th scope="row">{{info.id}}</th>
+                        <td>{{info.user_first_name}} {{info.user_last_name}}</td>
+                        <td>{{info.user_email}}</td>
+                        <td>{{info.user_instrument}}</td>
+                        <td>{{info.album.album_name}}</td>
+                        <td>{{info.album.album_release_date}}</td>
+                        <td>{{info.album.album_ratings}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+</section>
+{% else %}
+<section>
+    <div class="container mx-auto mt-4 p-4">
+        <div class="mx-auto ">
+            <table class="table table-light">
+                {% if infos %}
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Musician Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Album Ratings</th>
+                        <th scope="col">Instrument type</th>
+                        <th scope="col">Album Name</th>
+                        <th scope="col">Realease Date&Time</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for info in infos %}
+                    <tr>
+                        <th scope="row">{{info.id}}</th>
+                        <td><a class="userName" href="{% url 'updatemusician' info.id %}">{{info.user_first_name}} {{info.user_last_name}}</a></td>
+                        <td>{{info.user_email}}</td>
+                        <td>{{info.album.album_ratings}}</td>
+                        <td>{{info.user_instrument}}</td>
+                        <td>{{info.album.album_name}}</td>
+                        <td>{{info.album.album_release_date}}</td>
+                        <td>
+                            {% if info.album and info.album.id %}
+                                <a href="{% url 'updatealbum' info.album.id %}" class="link-info">Edit</a>
+                                <a href="{% url 'deletealbum' info.album.id %}" class="link-danger">Delete</a>
+                            {% else %}
+                                <span class="text-muted">No Album</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        <button class="btn btn-success mt-3" type="submit">Delete</button>
+                    </form>
+                    {% endfor %}
+                </tbody>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock Main_Section %}
